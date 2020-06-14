@@ -20,7 +20,8 @@
       <!--    这里只有传字符串的时候不用加：，其它都要加-->
       <tab-control :titles="['流行','新款','精选']"
                    @itemClick="itemClick"
-                   ref="tabControl2"></tab-control>
+                   ref="tabControl2">
+      </tab-control>
       <goods-list :goods="showGoods"></goods-list>
     </scroll>
 <!--    组件原生事件不能直接监听，必须加上.nativ-->
@@ -39,11 +40,12 @@
   import TabControl from "components/content/tabControl/TabControl";
   import GoodsList from "components/content/Goods/GoodsList";
   import Scroll from 'components/common/scroll/Scroll';
-  import BackTop from "components/content/backTop/BackTop";
+
 
   // 导入服务器数据
   import {getHomeMultidata, getHomeGoods} from 'network/home';
-  import {debounce} from 'common/utils'
+  import {itemListenerMixin, backTopMixin} from 'common/mixin'
+
 
 
 
@@ -58,8 +60,9 @@
       TabControl,
       GoodsList,
       Scroll,
-      BackTop
+
     },
+    mixins: [itemListenerMixin, backTopMixin],
     data() {
       return {
         // 轮播图数据
@@ -93,14 +96,14 @@
 
     },
     mounted() {
-      // 加入防抖，减少refresh执行次数,这里一定传入函数this.$refs.scroll.refresh，
-      // 如果传入this.$refs.scroll.refresh()表示传入该函数返回值
-      const refresh = debounce(this.$refs.scroll.refresh, 500);
-
-      // 3.监听item中图片加载完成,刷新refresh以重新计算scrollerHeight
-      this.$bus.$on('itemImageLoad', () => {
-        refresh()
-      });
+      // // 加入防抖，减少refresh执行次数,这里一定传入函数this.$refs.scroll.refresh，
+      // // 如果传入this.$refs.scroll.refresh()表示传入该函数返回值
+      // const refresh = debounce(this.$refs.scroll.refresh, 500);
+      //
+      // // 3.监听item中图片加载完成,刷新refresh以重新计算scrollerHeight
+      // this.$bus.$on('itemImageLoad', () => {
+      //   refresh()
+      // });
     },
     methods: {
       // 监听轮播图是否加载完成,加载完成以后计算tabControl的offsetTop值
@@ -123,10 +126,7 @@
         this.$refs.tabControl1.currentIndex = index;
         this.$refs.tabControl2.currentIndex = index
       },
-      backClick() {
-        // 点击以后500ms内返回顶部
-        this.$refs.scroll.scrollTo(0, 0, 500)
-      },
+
       contentScroll(position) {
         // 判断BackTop是否显示
         this.isBackTop = position.y < -1000;
@@ -164,7 +164,11 @@
     },
     // 离开时触发
     deactivated() {
+      // 1.保存高度值
       this.saveY = this.$refs.scroll.getScrollY()
+      // 2.取消全局事件监听bus,后面传入一个函数this.itemImgListener，
+      // 表示取消的是这个函数的监听
+      this.$bus.$off('itemImageLoad', this.itemImgListener)
     }
   }
 </script>

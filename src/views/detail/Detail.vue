@@ -33,6 +33,8 @@
   import {getDetail, Goods, Shop, GoodsParam, getRecommend} from 'network/detail'
   import {itemListenerMixin, backTopMixin} from 'common/mixin'
   import {debounce} from 'common/utils'
+  import {mapActions} from 'vuex'
+
 
   export default {
     name: "Detail",
@@ -101,12 +103,13 @@
       this.$bus.$off('itemImageLoad', this.itemImgListener)
     },
     methods: {
+      ...mapActions(['addcart']),
       getDetail(iid) {
         getDetail(iid).then(res => {
           // 1.获取顶部轮播图数据
           const data1 = res.result
           this.topImages = data1.itemInfo.topImages
-          console.log(data1)
+          // console.log(data1)
 
           // 2.获取商品信息(用类保存)
           this.goods = new Goods(data1.itemInfo, data1.columns, data1.shopInfo.services)
@@ -128,7 +131,7 @@
       },
       getRecommend() {
         getRecommend().then(res => {
-          console.log(res)
+          // console.log(res)
           this.recommends = res.data.list
         })
       },
@@ -150,7 +153,7 @@
           if(this.currentIndex !== i && ((i<this.themeTopYs.length-1 && this.positionY >= this.themeTopYs[i] && this.positionY < this.themeTopYs[i+1])
             || (i===this.themeTopYs.length-1 && this.positionY >= this.themeTopYs[i]))){
             this.currentIndex = i
-            console.log(this.currentIndex)
+            // console.log(this.currentIndex)
             this.$refs.detailNavBar.currentItem = this.currentIndex
           }
         }
@@ -158,7 +161,7 @@
         this.isBackTop = position.y < -1000;
       },
       addCart() {
-        // 获取购物车需要展示的信息
+        // 1.获取购物车需要展示的信息
         const product = {}
         product.img = this.topImages[0]
         product.title = this.goods.title
@@ -166,9 +169,23 @@
         product.price = this.goods.realPrice
         product.iid = this.iid
         product.count = 0
-        this.$store.dispatch('addcart', product)
-        this.$store.commit('addcart', product)
-        console.log(product);
+
+        // 2.将商品添加到购物车中
+        // 在Action中, 我们可以将异步操作放在一个Promise中,
+        // 并且在成功或者失败后, 调用对应的resolve或reject.（写法一）
+        // this.$store.dispatch('addcart', product).then(res => {
+        //   console.log(res)
+        // })
+
+        // 写法二(mapactions) 可以将actions中的addcart方法映射到methods中
+        this.addcart(product).then(res => {
+          console.log(res)
+          this.$toast.toShow(res, 1500)
+        })
+
+
+        //this.$store.commit('addcart', product)
+        // console.log(product);
 
       }
     }

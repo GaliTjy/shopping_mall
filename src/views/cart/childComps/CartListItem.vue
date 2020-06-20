@@ -11,7 +11,14 @@
       <div class="item-desc">{{itemInfo.desc}}</div>
       <div class="info-bottom">
         <div class="item-price left">¥{{itemInfo.price}}</div>
-        <div class="item-count right">x{{itemInfo.count}}</div>
+        <div class="del right" @click="delate">删除</div>
+        <div class="item-count right">
+          <span @click="add">+</span>
+          <span>{{itemInfo.count}}</span>
+          <span @click="subtract">-</span>
+        </div>
+<!--        <div class="item-count right">x{{itemInfo.count}}</div>-->
+
       </div>
     </div>
   </div>
@@ -34,6 +41,15 @@
       checkedChange: function () {
         this.itemInfo.check = !this.itemInfo.check;
         //this.$emit('')
+      },
+      delate() {
+        this.$store.dispatch('delate', this.itemInfo)
+      },
+      add(){
+        this.$store.dispatch('add', this.itemInfo)
+      },
+      subtract(){
+        this.$store.dispatch('subtract', this.itemInfo)
       }
     }
   }
@@ -88,6 +104,8 @@
   }
 
   .info-bottom {
+    height: 35px;
+    line-height: 35px;
     margin-top: 10px;
     position: absolute;
     bottom: 10px;
@@ -97,6 +115,23 @@
 
   .info-bottom .item-price {
     color: orangered;
+  }
+
+  .del {
+    padding-left: 10px;
+    color:blue;
+  }
+
+  .item-count span{
+    border: 1px solid #f2f2f2;
+    padding: 5px 8px;
+    background-color: #f9e2e6;
+  }
+  .item-count span:nth-child(-n+2){
+    border-right: 0;
+  }
+  .item-count span:nth-child(2n){
+    background-color: #fff;
   }
 
 </style>

@@ -160,14 +160,14 @@
     activated() {
       this.$refs.scroll.scrollTo(0, this.saveY, 0)
       this.$refs.scroll.refresh()
-      console.log('回到home')
+      console.log('回到home'+this.saveY)
 
     },
     // 离开时触发
     deactivated() {
       // 1.保存高度值
       this.saveY = this.$refs.scroll.getScrollY()
-      console.log('离开home')
+      console.log('离开home:'+this.saveY)
       // 2.取消全局事件监听bus,后面传入一个函数this.itemImgListener，
       // 表示取消的是这个函数的监听
       this.$bus.$off('itemImageLoad', this.itemImgListener)

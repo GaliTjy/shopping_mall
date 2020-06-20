@@ -89,7 +89,8 @@
           this.themeTopYs.push(this.$refs.params.$el.offsetTop)
           this.themeTopYs.push(this.$refs.comment.$el.offsetTop)
           this.themeTopYs.push(this.$refs.recommend.$el.offsetTop)
-          // console.log(this.themeTopYs)
+          console.log(this.themeTopYs)
+          console.dir(this.$refs.params.$el)
 
         }, 50);
       })

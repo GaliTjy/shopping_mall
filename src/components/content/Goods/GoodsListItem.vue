@@ -1,7 +1,7 @@
 <template>
-  <div class="goods-item" @click="goodsItemClick">
+  <div class="goods-item" @click="goodsItemClick" :key="goodsItem.iid">
 <!--    监听图片是否加载完成-->
-      <img :src="showImg" alt="" @load="imgLoad">
+      <img :src="showImg" alt="" @load="imgLoad" ref="imgs" >
       <div class="goods-info">
         <p>{{goodsItem.title}}</p>
         <span class="price">{{goodsItem.price}}</span>
@@ -24,7 +24,7 @@
     computed: {
       showImg() {
         return  this.goodsItem.image || this.goodsItem.show.img
-      }
+      },
     },
     methods: {
       imgLoad() {

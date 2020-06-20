@@ -8,6 +8,27 @@ export default {
     payload.count = 1
     payload.check = true
     state.cartList.push(payload)
-  }
+  },
+  delate(state, payload){
+    let newstate = state.cartList.filter(ele => ele.iid !== payload.iid)
+    state.cartList = newstate
+  },
+  add(state, payload){
+    for(let i=0; i<state.cartList.length; i++){
+      if(state.cartList[i].iid === payload.iid){
+        state.cartList[i].count += 1
+        break
+      }
+    }
+  },
+  subtract(state, payload){
+    console.log(state)
+    for(let i=0; i<state.cartList.length; i++){
+      if(state.cartList[i].iid === payload.iid && state.cartList[i].count>0){
+        state.cartList[i].count -= 1
+        break
+      }
+    }
+  },
 
 }

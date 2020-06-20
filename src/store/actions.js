@@ -11,5 +11,15 @@ export default {
         resolve('当前商品+1')
       }
     })
+  },
+  delate(context, payload){
+    context.commit('delate', payload)
+  },
+  add(context, payload){
+    context.commit('add',payload)
+  },
+  subtract(context, payload){
+    context.commit('subtract', payload)
   }
+
 }

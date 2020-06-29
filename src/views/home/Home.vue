@@ -148,9 +148,9 @@
       getHomeGoods(type) {
         const page = this.goods[type].page + 1
         getHomeGoods(type, page).then(res => {
-          const newlsit = res.data.list
+          const newlist = res.data.list
           // push这个函数可以传入多个参数，表示一个一个分开push进去，传入一个list一定要加...
-          this.goods[type].list.push(...newlsit)
+          this.goods[type].list.push(...newlist)
           this.goods[type].page = page
           this.$refs.scroll.finishPullUp()
         })

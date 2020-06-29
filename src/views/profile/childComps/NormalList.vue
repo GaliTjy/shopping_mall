@@ -1,6 +1,6 @@
 <template>
   <div class="normal-list">
-    <div class="item" v-for="(item, index) in list">
+    <div class="item" v-for="(item, index) in list" :id="item.id" @click="itemClick(item.id)">
       <span class="icon"><img :src="iconURL(item)" alt=""></span>
       <div class="info">{{item.info}}</div>
     </div>
@@ -16,11 +16,16 @@
         default(){
           return []
         }
-      }
+      },
     },
     methods: {
       iconURL(item) {
         return require("assets/img/profile/"+ item.icon)
+      },
+      itemClick(id){
+        if(id === 'cart'){
+          this.$router.replace('/cart')
+        }
       },
     }
   }

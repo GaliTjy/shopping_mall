@@ -28,13 +28,13 @@
     data() {
       return {
         normalList: [
-          {icon: 'message.svg', info: '我的消息'},
-          {icon: 'pointer.svg', info: '积分商城'},
-          {icon: 'vip.svg', info: '会员卡'},
+          {icon: 'message.svg', info: '我的消息', id:'message', path:'/cart'},
+          {icon: 'pointer.svg', info: '积分商城', id:'pointer', path:'/cart'},
+          {icon: 'vip.svg', info: '会员卡', id:'vip', path:'/cart'},
         ],
         cartList: [
-          {icon: 'cart.svg', info: '我的购物车'},
-          {icon: 'shopping.svg', info: '下载购物APP'},
+          {icon: 'cart.svg', info: '我的购物车', id:'cart', path:'/cart'},
+          {icon: 'shopping.svg', info: '下载购物APP', id:'shopping', path:'/cart'},
         ]
 
 

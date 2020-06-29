@@ -12,6 +12,7 @@ export function request(config) {
     // 拦截器作用：1.config中有一些信息不符合服务器要求需要过滤；
     // 2.希望发送网络请求时，在界面上显示一个转圈的图标；
     // 3.某些网络请求（比如登录（需要携带token）），必须携带一些特殊的信息
+    console.log(config)
     return config
   }, err => {
 
